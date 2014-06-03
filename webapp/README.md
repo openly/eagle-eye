@@ -1,0 +1,1 @@
+Web application to represent the Eagle Eye, by fetching the data from the service app
