@@ -1,0 +1,27 @@
+{
+  "name": "eagle-eye",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "mongoose": "3.8.8",
+    "validator": "1.5.1",
+    "passport": "0.2.0",
+    "passport-local": "0.1.6",
+    "crypto": "0.0.3",
+    "restify": "2.6.1",
+    "mocha": "1.17.1",
+    "should":"3.1.3",
+    "underscore":"1.6.0",
+    "async":"0.2.10",
+    "xunit-file":"0.0.5",
+    "MD5":"1.2.0",
+    "moment":"2.5.1",
+    "nodemailer":"0.6.0",
+    "mustache":"0.8.1",
+    "randomstring":"1.0.3",
+    "nodemock":"0.3.3"
+  }
+}

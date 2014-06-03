@@ -1,0 +1,3 @@
+<?php 
+
+//class not found

@@ -1,0 +1,20 @@
+{{#hasSuccessMsg}}
+<div class="alert alert-success">
+	{{#success}}<li>{{.}}</li>{{/success}}
+</div>
+{{/hasSuccessMsg}}
+{{#hasErrorMsg}}
+<div class="alert alert-error">
+	{{#errors}}<li>{{.}}</li>{{/errors}}
+</div>
+{{/hasErrorMsg}}
+{{#hasWarningMsg}}
+<div class="alert alert-warning">
+	{{#warning}}<li>{{.}}</li>{{/warning}}
+</div>
+{{/hasWarningMsg}}
+{{#hasInfoMsg}}
+<div class="alert alert-info">
+	{{#info}}<li>{{.}}</li>{{/info}}
+</div>
+{{/hasInfoMsg}}

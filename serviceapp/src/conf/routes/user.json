@@ -1,0 +1,116 @@
+{
+  "/users": {
+    "module": "db_crud",
+    "method": "read",
+    "authorisation": "super_admin",
+    "params": {
+      "model": "user",
+      "query": {
+        "$nor": [
+          {
+            "roles": "super_admin"
+          },
+          {
+            "roles": "admin"
+          }
+        ]
+      },
+      "fields": [
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "client_id"
+      ]
+    },
+    "subroutes": {
+      "/create": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "create",
+        "authorisation": "admin",
+        "params": {
+          "audit_log_message": "Added new user as an end user",
+          "model": "user",
+          "before": [
+            "users.validateTwoPasswords",
+            "users.checkForDuplicateUserWhileCreating",
+            "users.md5Password",
+            "users.setDefaultRoles"
+          ],
+          "validation": {
+            "user_name": {
+              "required": {
+                "error_message": "Please enter Username."
+              },
+              "length": {
+                "error_message": "Please enter Username, allowed length is in the range of 5-20.",
+                "min": 3,
+                "max": 20
+              }
+            },
+            "password": {
+              "required": {
+                "error_message": "Please enter Password."
+              },
+              "length": {
+                "error_message": "Please enter Password, allowed length is in the range of 5-20.",
+                "min": 5,
+                "max": 20
+              }
+            },
+            "email": {
+              "required": {
+                "error_message": "Please enter Email."
+              },
+              "email": {
+                "error_message": "Please enter valid email id."
+              }
+            },
+            "confirm_password": {
+              "required": {
+                "error_message": "Please enter Password."
+              },
+              "length": {
+                "error_message": "Please enter Password,allowed length is in the range of 5-20.",
+                "min": 5,
+                "max": 20
+              }
+            },
+            "phone_number": {
+              "required": {
+                "error_message": "Please enter Phone Number."
+              }
+            },
+            "first_name": {
+              "required": {
+                "error_message": "Please enter First name"
+              },
+              "length": {
+                "error_message": "Please enter First name,allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "last_name": {
+              "required": {
+                "error_message": "Please enter Last name."
+              },
+              "length": {
+                "error_message": "Please enter Last name,allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "company_id": {
+              "required": {
+                "error_message": "Please enter Company id"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

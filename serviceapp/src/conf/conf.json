@@ -1,0 +1,43 @@
+{
+  "VERSION" : "1.0.0",
+  
+  "API_PORT" : "4444",
+
+  "ROUTER_DIR" : "${BASE_DIR}/router/",
+
+  "BASE_URL" : "http://localhost:4444/",
+
+  "ROUTE_CONFIG_FILES":[
+    "${BASE_DIR}/conf/routes/miscellaneous.json"
+    , "${BASE_DIR}/conf/routes/user.json"
+    , "${BASE_DIR}/conf/routes/user_auth.json"
+    , "${BASE_DIR}/conf/routes/clients.json"
+    , "${BASE_DIR}/conf/routes/projects.json"
+  ],
+
+  "PLUGIN_DIR" : "${BASE_DIR}/plugins/",
+  "FAILED_EMAILS_DIR" : "${BASE_DIR}/../temp/failed_emails",
+
+  "TOKEN_DIR" : "${BASE_DIR}/../temp/tokens/",
+  "ERROR_LOG_DIR" : "${BASE_DIR}/../logs/",
+  "TEMP_DIR" : "${BASE_DIR}/../templates/",
+  "SALT"    : "06@NG3",
+  "TOKEN_TIMEOUT": 1200,
+  "EMAIL_TEMPLATE_DIR": "${BASE_DIR}/../templates/email/",
+  "DESTINATION_EMAIL":"abhihebbar@gmail.com",
+  "EMAIL" :{
+    "FROM":"noreply.eagle-eye.com",
+    "RETRY_COUNT": 5,
+    "RETRY_INTERVAL":10,
+    "SMTP":{
+      "SERVICE": "Gmail",
+      "AUTH":{
+        "USER": "abhiadds@gmail.com",
+        "PASS": "indianabhi"
+      }
+    }
+  },
+
+  "DB_URL"  : "mongodb://localhost:27017/",
+  "DB_NAME"    : "eagle-eye" 
+}

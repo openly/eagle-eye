@@ -1,0 +1,3 @@
+{
+	"/invalid": {"controller":"TestHome","action":"invalid"}
+}

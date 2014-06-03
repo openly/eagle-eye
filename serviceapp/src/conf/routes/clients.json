@@ -1,0 +1,44 @@
+{
+  "/clients": {
+    "module": "db_crud",
+    "method": "read",
+    "params": {
+      "model": "clients",
+      "fields": [
+        "client_name",
+        "description",
+        "client_handle",
+        "users",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "subroutes": {
+      "/create": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "create",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "clients",
+          "before": [
+            "clients.checkForDuplicateClientsWhileCreating",
+            "clients.updateCreatedDate"
+          ],
+          "validation": {
+            "client_name": {
+              "required": {
+                "error_message": "Please enter Client Name."
+              }
+            },
+            "client_handle": {
+              "required": {
+                "error_message": "Please enter Client Handle."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "/login": {
+    "module": "login",
+    "method": "login",
+    "req_method": "post",
+    "params": {
+      "validation": {
+        "username": {
+          "required": {
+            "error_message": "Please enter Username"
+          }
+        },
+        "password": {
+          "required": {
+            "error_message": "Please enter Password"
+          }
+        }
+      }
+    }
+  },
+  "/logout": {
+    "module": "login",
+    "method": "logout",
+    "params": {
+      "audit_log_message": "User logged out"
+    }
+  }
+}
