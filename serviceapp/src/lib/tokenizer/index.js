@@ -37,37 +37,43 @@ function Tokenizer(app, fs, userInfo){
 
     //  *** `public` deleteToken : *** Function to delete 'token'
     this.deleteToken    = function(token, callback){
-        if(!fs.existsSync(this.app.get('TOKEN_DIR') + token)){
+        var file = this.app.get('TOKEN_DIR') + token;
+        if(!fs.existsSync(file)){
             callback(false);
+        } else {
+            fs.unlink(file, function(err){
+                if(err){ 
+                    if(err){ throw new Error('Cannot Delete Token file:' + file)} 
+                }
+                callback(true); 
+            })
         }
-        fs.unlink(this.app.get('TOKEN_DIR') + token, function(err){
-            if(err){ throw new Error('Cannot delete file.')}
-            callback(true); 
-        })
     }
 
     //  *** `public` isAuthorised : *** Function to authorise current user's access to the requested action 
     this.isAuthorised = function(accessableRole, token, callback){
-        if(!fs.existsSync(this.app.get('TOKEN_DIR') + token)){
+        var file = this.app.get('TOKEN_DIR') + token;
+        if(!fs.existsSync(file)){
             return callback(false);
-        }
-        fs.readFile(this.app.get('TOKEN_DIR') + token, function(err,data){
-            if(err){ throw new Error('Cannot Read file.' + this.app.get('TOKEN_DIR') + token)}
-            var userId = data.toString().split("|");
-            userId = userId[0];
-            tokenize.userInfo.getUserRole(userId, function(userRole){ // Get roles of the current user
-                if(!userRole){ 
-                    callback(false);
-                    return;
-                }
+        } else {
+            fs.readFile(file, function(err,data){
+                if(err){ throw new Error('Cannot Read file:' + file)}
+                var userId = data.toString().split("|");
+                userId = userId[0];
+                tokenize.userInfo.getUserRole(userId, function(userRole){ // Get roles of the current user
+                    if(!userRole){ 
+                        callback(false);
+                        return;
+                    }
 
-                accessableRole = global.EEConstants.priorityOfUserRoles[accessableRole];
-                userRole = global.EEConstants.priorityOfUserRoles[userRole];
-                
-                var checkAuthorised =  accessableRole <= userRole;
-                callback(checkAuthorised);
+                    accessableRole = global.EEConstants.priorityOfUserRoles[accessableRole];
+                    userRole = global.EEConstants.priorityOfUserRoles[userRole];
+                    
+                    var checkAuthorised =  accessableRole <= userRole;
+                    callback(checkAuthorised);
+                });
             });
-        });
+        }
     }
 
     //  *** `public` getUid : *** Function to get User Id from 'token'

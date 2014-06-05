@@ -10,7 +10,7 @@ module.exports = {
             
             restClient.post(
                 '/login',
-                {user: data.superAdminUserName.valid[0], pass: data.superAdminPassword.valid[0]},
+                {username: data.superAdmin.valid.username, password: data.superAdmin.valid.password},
                 function(err, req, res, obj){
                     if(err){ throw(err) };
                     if(!obj.token){ throw new Error('Did not find access token') };

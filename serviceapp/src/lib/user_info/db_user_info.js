@@ -37,7 +37,6 @@ function DBUserInfo(app){
 
   //  *** `public` getRoles : *** Function to get roles, Given User ID 
   this.getUserRole = function(uid, callback){
-    console.log('I am getting user role from ID');
     app.plugins.users.getUser(uid, function(theUser){
       if(!theUser){
         callback(false);
@@ -49,7 +48,6 @@ function DBUserInfo(app){
 
   //  *** `public` getDetails : *** Function to get user deatails, Given User ID
   this.getDetails = function(uid, callback){
-    console.log('I am getting user details from ID');
     app.plugins.users.getUser(uid, function(theUser){
       if(!theUser){
         callback(false);

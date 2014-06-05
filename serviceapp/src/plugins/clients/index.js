@@ -8,18 +8,6 @@ function Client(app){
     this.getModel = function() {
         return clientModel;
     }
-    this.checkForDuplicateClientsWhileCreating = function(params, callback){
-        clientModel.findOne({client_handle:params.client_handle }, function(err, clientDetails){
-            if(err){
-                throw new Error('Cannot Find Client' + err);
-            }
-            if(clientDetails){
-                callback(['Duplicate Client handle.'], params);
-            }else {
-                callback(null, params);
-            }
-        });
-    }
 
     this.updateCreatedDate = function(params, callback){
         var curDate = new Date();
@@ -30,6 +18,13 @@ function Client(app){
 
     this.updateLastUpdatedDate = function(params, callback){
         params['updated_at'] = new Date();
+        callback(null, params);
+    }
+
+    this.unsetClientHandleOnUpdate = function(params, callback){
+        if (params['client_handle']) {
+            delete params['client_handle'];
+        }
         callback(null, params);
     }
 }

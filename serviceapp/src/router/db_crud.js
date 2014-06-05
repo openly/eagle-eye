@@ -23,19 +23,27 @@ function DBCRUDRoute(app,routeParams){
 		// ***calls :*** List of all the calls needed in the order of execution.
 		// These calls are executed in series to get the result
 		var calls = [
-			app.plugins.validator.validateExecutor(routeParams.validation,reqParams), // Validate
-			app.plugins.method_exec.seriesExecutor(routeParams.before,reqParams), // Execute before methods
+			app.plugins.validator.validateExecutor(routeParams.validation, reqParams), // Validate
+			app.plugins.method_exec.seriesExecutor(routeParams.before, reqParams), // Execute before methods
 			function(callback){ 
-			new model(sanitizeReq(reqParams,model)).save(callback); }, // Create new record
-			app.plugins.method_exec.seriesExecutor(routeParams.after,reqParams), // Execute after methods
+				new model(sanitizeReq(reqParams, model)).save(function(err, results){
+					if(err){
+						if (err.name) {
+							err = [err.err]
+						}
+					}
+					callback(err, results)
+				}); 
+			}, // Create new record
+			app.plugins.method_exec.seriesExecutor(routeParams.after, reqParams) // Execute after methods
 		];
 
-		async.series(calls,function(err,results){
+		async.series(calls, function(err, results){
 			if(err && err.length > 0){
-				callback(null, {status:'failed',errors:err});
+				callback(null, {status:'failed', errors:err});
 			}else{
-				var result = results.pop(); // Get the result array
-				result = results.pop().shift(); // last but one has the ID
+				var result = results.pop();
+				result = results.pop(); // last but one has the ID
 				callback(null, {status:'success','id':result._id});
 			}
 		})
@@ -58,7 +66,14 @@ function DBCRUDRoute(app,routeParams){
 				callback();
 			},
 			function(callback){ 
-			model.findOneAndUpdate(query, sanitizeReq(reqParams, model), callback); 
+				model.findOneAndUpdate(query, sanitizeReq(reqParams, model), function(err, results){
+					if(err){
+						if (err.name) {
+							err = [err.err]
+						}
+					}
+					callback(err, results)
+				}); 
 			}, // update the record
 			app.plugins.method_exec.seriesExecutor(routeParams.after,reqParams), // Execute after methods
 		];

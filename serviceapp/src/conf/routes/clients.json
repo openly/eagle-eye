@@ -14,6 +14,25 @@
       ]
     },
     "subroutes": {
+      "/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "read",
+        "authorisation": "user",
+        "params": {
+          "model": "clients",
+          "query": {
+            "_id": "${id}"
+          },
+          "fields": [
+            "client_name",
+            "client_handle",
+            "description",
+            "created_at",
+            "updated_at"
+          ]
+        }
+      },
       "/create": {
         "req_method": "post",
         "module": "db_crud",
@@ -22,7 +41,6 @@
         "params": {
           "model": "clients",
           "before": [
-            "clients.checkForDuplicateClientsWhileCreating",
             "clients.updateCreatedDate"
           ],
           "validation": {
@@ -37,6 +55,35 @@
               }
             }
           }
+        }
+      },
+      "/update/:id": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "update",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "clients",
+          "before": [
+            "clients.updateLastUpdatedDate",
+            "clients.unsetClientHandleOnUpdate"
+          ],
+          "validation": {
+            "client_name": {
+              "required": {
+                "error_message": "Please enter Client Name."
+              }
+            }
+          }
+        }
+      },
+      "/delete/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "delete",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "clients"
         }
       }
     }

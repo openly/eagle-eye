@@ -28,7 +28,7 @@ function LoginRoute(app, routeParams){
 			var token = req.query.access_token;
 			app.auth.logout(token, function(e, obj){
 				if(e){
-					callback(e, {status:'failed', errors: e});
+					callback(null, {status:'failed', errors: e});
 				} else {
 					callback(null, {status:'success'});
 				}

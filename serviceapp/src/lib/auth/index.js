@@ -51,7 +51,6 @@ function Authoriser(userInfo, tokenizer){
             return;
         }
         this.tokenizer.deleteToken(token, function(tokenDeleted){
-            console.log(token + ':' + tokenDeleted);
             if(!tokenDeleted){
                 var e = [];
                 if(!tokenDeleted) {
