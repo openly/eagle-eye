@@ -64,9 +64,6 @@
         "authorisation": "super_admin",
         "params": {
           "model": "clients",
-          "query"       : { 
-            "_id" : "${id}" 
-          },
           "before": [
             "clients.updateLastUpdatedDate",
             "clients.unsetClientHandleOnUpdate"
@@ -86,15 +83,7 @@
         "method": "delete",
         "authorisation": "super_admin",
         "params": {
-          "model": "clients",
-          "query": { "_id" : "${id}" },
-          "validation": {
-            "_id": {
-              "required": {
-                "error_message": "Please provide ClientID."
-              }
-            }
-          }
+          "model": "clients"
         }
       }
     }
