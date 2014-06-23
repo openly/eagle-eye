@@ -1,0 +1,6 @@
+{
+  "superAdmin": {
+    "username": "sudo",
+    "password": "123456"
+  }
+}
