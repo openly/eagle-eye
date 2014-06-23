@@ -1,0 +1,12 @@
+{
+	"superAdmin": {
+		"valid" 	: {
+			"username" : "openly",
+			"password" : "indian"
+		},
+		"inValid" 	: {
+			"username" : "inValid",
+			"password" : "invalid"
+		}
+	}
+}

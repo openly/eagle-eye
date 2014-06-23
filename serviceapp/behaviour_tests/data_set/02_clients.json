@@ -1,0 +1,22 @@
+{
+	"create" : {
+		"valid" : {
+			"client_name" : "Client1"
+			, "description" : "Client Description"
+			, "client_handle" : "client1"
+		}
+		, "invalid" : {
+
+		}
+	}
+	, "update" : {
+		"valid" : {
+			"client_name" : "Client2"
+			, "description" : "Client Description2"
+			, "client_handle" : "client2"
+		}
+		, "invalid" : {
+			
+		}
+	}
+}
