@@ -1,11 +1,11 @@
 {
-  "db": "mongodb"
-  , "restify": "restify"
-  , "static_content": "db_static_content"
-  , "users": "users"
-  , "clients": "clients"
-  , "projects": "projects"
-  , "validator": "validator"
-  , "method_exec": "method_exec"
-  , "error_log": "error_log"
+  "db": "mongodb",
+  "restify": "restify",
+  "static_content": "db_static_content",
+  "user": "users",
+  "clients": "clients",
+  "projects": "projects",
+  "validator": "validator",
+  "method_exec": "method_exec",
+  "error_log": "error_log"
 }

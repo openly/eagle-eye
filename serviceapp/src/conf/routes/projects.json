@@ -15,6 +15,27 @@
       ]
     },
     "subroutes": {
+      "/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "read",
+        "authorisation": "user",
+        "params": {
+          "model": "projects",
+          "query": {
+            "_id": "${id}"
+          },
+          "fields": [
+            "project_name",
+            "project_handle",
+            "description",
+            "client_id",
+            "users",
+            "created_at",
+            "updated_at"
+          ]
+        }
+      },
       "/create": {
         "req_method": "post",
         "module": "db_crud",
@@ -23,8 +44,8 @@
         "params": {
           "model": "projects",
           "before": [
-            "projects.checkForDuplicateProjectsWhileCreating",
-            "projects.checkForExistingClients"
+            "projects.checkForExistingClients",
+            "projects.updateCreatedDate"
           ],
           "validation": {
             "project_name": {
@@ -37,9 +58,54 @@
                 "error_message": "Please enter Project handle."
               }
             },
-            "client_id":{
-              "required":{
+            "client_id": {
+              "required": {
                 "error_message": "Please provide client id."
+              }
+            }
+          }
+        }
+      },
+      "/update/:id": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "update",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "projects",
+          "query": {
+            "_id": "${id}"
+          },
+          "before": [
+            "projects.checkForExistingClients",
+            "projects.unsetProjHandleOnUpdate",
+            "projects.updateLastUpdatedDate"
+          ],
+          "validation": {
+            "project_name": {
+              "length": {
+                "error_message": "Please enter First name, allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            }
+          }
+        }
+      },
+      "/delete/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "delete",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "projects",
+          "query": {
+            "_id": "${id}"
+          },
+          "validation": {
+            "_id": {
+              "required": {
+                "error_message": "Please provide UserID."
               }
             }
           }

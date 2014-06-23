@@ -1,1 +1,1 @@
-Service APP for the Eagle Eye APP.
+Eagle Eye Service App Layer

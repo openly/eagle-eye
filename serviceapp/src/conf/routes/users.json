@@ -1,0 +1,178 @@
+{
+  "/users": {
+    "module": "db_crud",
+    "method": "read",
+    "authorisation": "user",
+    "params": {
+      "model": "user",
+      "fields": [
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "role",
+        "client_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "subroutes": {
+      "/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "read",
+        "authorisation": "user",
+        "params": {
+          "model": "user",
+          "query": {
+            "_id": "${id}"
+          },
+          "fields": [
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "role",
+            "client_id",
+            "created_at",
+            "updated_at"
+          ]
+        }
+      },
+      "/create": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "create",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "user",
+          "before": [
+            "user.validateTwoPasswords",
+            "user.encryptPasswords",
+            "user.updateCreatedDate"
+          ],
+          "validation": {
+            "username": {
+              "required": {
+                "error_message": "Please enter Username."
+              },
+              "length": {
+                "error_message": "Please enter Username, allowed length is in the range of 5-20.",
+                "min": 3,
+                "max": 20
+              }
+            },
+            "password": {
+              "required": {
+                "error_message": "Please enter Password."
+              },
+              "length": {
+                "error_message": "Please enter Password, allowed length is in the range of 5-20.",
+                "min": 5,
+                "max": 20
+              }
+            },
+            "confirm_password": {
+              "required": {
+                "error_message": "Please enter Confirm Password."
+              },
+              "length": {
+                "error_message": "Please enter Confirm Password, allowed length is in the range of 5-20.",
+                "min": 5,
+                "max": 20
+              }
+            },
+            "first_name": {
+              "required": {
+                "error_message": "Please enter First name."
+              },
+              "length": {
+                "error_message": "Please enter First name, allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "last_name": {
+              "required": {
+                "error_message": "Please enter Last name."
+              },
+              "length": {
+                "error_message": "Please enter Last name,allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "email": {
+              "required": {
+                "error_message": "Please enter Email."
+              },
+              "email": {
+                "error_message": "Please enter valid email id."
+              }
+            }
+          }
+        }
+      },
+      "/update/:id": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "update",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "user",
+          "query": {
+            "_id": "${id}"
+          },
+          "before": [
+            "user.validateTwoPasswords",
+            "user.encryptPasswords",
+            "user.unsetUsernameOnUpdate",
+            "user.updateLastUpdatedDate"
+          ],
+          "validation": {
+            "first_name": {
+              "length": {
+                "error_message": "Please enter First name, allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "last_name": {
+              "length": {
+                "error_message": "Please enter Last name,allowed length is in the range of 1-20.",
+                "min": 1,
+                "max": 20
+              }
+            },
+            "email": {
+              "email": {
+                "error_message": "Please enter valid email id."
+              }
+            }
+          }
+        }
+      },
+      "/delete/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "delete",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "user",
+          "query": {
+            "_id": "${id}"
+          },
+          "validation": {
+            "_id": {
+              "required": {
+                "error_message": "Please provide UserID."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

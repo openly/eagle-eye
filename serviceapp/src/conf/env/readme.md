@@ -2,7 +2,7 @@
     
 2. The environment config files are loaded based on the the value in NODE_ENV variable.
     
-3. NODE_ENV value needs to be supplied during the start of the application.[ NODE_ENV=loacal src/app.js]
+3. NODE_ENV value needs to be supplied during the start of the application.[ NODE_ENV=loacal src/app.coffee]
    
 4. NODE_ENV can have values local, stage, test, live each correspond to their respective environments
 
