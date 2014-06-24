@@ -10,7 +10,16 @@
       "phone_number": "+911236498797",
       "client_id": "12345678978979"
     },
-    "invalid": {}
+    "invalid": {
+      "username": "",
+      "password": "",
+      "confirm_password": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "client_id": ""
+    }
   },
   "update": {
     "valid": {

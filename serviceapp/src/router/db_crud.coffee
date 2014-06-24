@@ -143,7 +143,7 @@ DBCRUDRoute = (app, routeParams) ->
       app.plugins.method_exec.seriesExecutor(routeParams.after, reqParams)
     ]
     async.series calls, (err, results) ->
-      if err and err.length > 0
+      if err
         callback null,
           status: global.EEConstants.status.failure
           errors: err
@@ -178,7 +178,7 @@ DBCRUDRoute = (app, routeParams) ->
       app.plugins.method_exec.seriesExecutor(routeParams.after, reqParams)
     ]
     async.series calls, (err, results) ->
-      if err and err.length > 0
+      if err
         callback null,
           status: global.EEConstants.status.failure
           errors: err
@@ -197,23 +197,26 @@ DBCRUDRoute = (app, routeParams) ->
     reqParams = req.params
     calls = [
       app.plugins.method_exec.seriesExecutor(routeParams.before, reqParams)
-      (callback) ->
+      (next) ->
         query = app.plugins.method_exec.parameteriseQuery(routeParams.query, reqParams)
-        callback()
-      (callback) ->
-        model.remove query, callback
+        next()
+      (next) ->
+        model.remove query, (err, results) ->
+          if !err and results <= 0
+            err = 'No record deleted'
+          next(err, results)
+
       app.plugins.method_exec.seriesExecutor(routeParams.after, reqParams)
     ]
     async.series calls, (err, results) ->
-      if err and err.length > 0
+
+      if err
         callback null,
           status: global.EEConstants.status.failure
           errors: err
-
       else
         callback null,
           status: global.EEConstants.status.success
-
       return
 
     return
@@ -246,7 +249,7 @@ DBCRUDRoute = (app, routeParams) ->
           mongooseQuery.exec callback
     ]
     async.series calls, (err, results) ->
-      if err and err.length > 0
+      if err
         callback null,
           status: global.EEConstants.status.failure
           errors: err

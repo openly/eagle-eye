@@ -39,7 +39,7 @@ Tokenizer = (app, fs, userInfo) ->
       callback false
     else
       fs.unlink file, (err) ->
-        throw new Error("Cannot Delete Token file:" + file)  if err  if err
+        throw new Error("Cannot Delete Token file:" + file)  if err
         callback true
         return
 
