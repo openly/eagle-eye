@@ -7,7 +7,12 @@
 #     @package    ServiceApp Library
 #     @module     Tokenizer
 #     @author     Abhilash Hebbar
-#     @author     Chethan K 
+#     @author     Chethan K
+
+
+_ = require "underscore"
+md5 = require "MD5"
+
 Tokenizer = (app, fs, userInfo) ->
   
   #  *** `public` tokenize : *** Tokenizer object
@@ -28,7 +33,6 @@ Tokenizer = (app, fs, userInfo) ->
       throw new Error("Cannot create file.")  if err
       callback token
       return
-
     return
 
   
@@ -42,7 +46,6 @@ Tokenizer = (app, fs, userInfo) ->
         throw new Error("Cannot Delete Token file:" + file)  if err
         callback true
         return
-
     return
 
   
@@ -65,9 +68,7 @@ Tokenizer = (app, fs, userInfo) ->
           checkAuthorised = accessableRole <= userRole
           callback checkAuthorised
           return
-
         return
-
     return
 
   
@@ -85,10 +86,7 @@ Tokenizer = (app, fs, userInfo) ->
       else
         callback false
       return
-
     return
-
   return
-_ = require("underscore")
-md5 = require("MD5")
+
 module.exports = Tokenizer

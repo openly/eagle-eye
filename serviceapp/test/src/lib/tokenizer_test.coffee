@@ -1,16 +1,17 @@
-Tokenizer = require("../src/lib/tokenizer")
-Mock = require("./mock")
 should = require("should")
-md5 = require("MD5")
-fs = require("fs")
-tokenizerObj = undefined
-appMock = undefined
-fsMockValid = undefined
-validUserInfoMock = undefined
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+md5 = require "MD5"
+
+Tokenizer = require(testDir + '../src/lib/tokenizer')
+global.EEConstants = require(testDir + '../src/constants.coffee')
+
 suite "Create Token", ->
   test "Writable FS", (done) ->
     fsMockValid = new Mock([
-      name: "writeFile"
+      name: "outputFile"
       return_value: null
     ])
     appMock = new Mock([
@@ -19,50 +20,29 @@ suite "Create Token", ->
     ])
     tokenizerObj = new Tokenizer(appMock, fsMockValid)
     tokenizerObj.createToken "", (token) ->
-      fsMockValid.writeFile_called.should.be.true
+      fsMockValid.outputFile_called.should.be.true
       done()
       return
-
     return
-
   return
 
-suite "Validate Token", ->
-  test "Valid Test", (done) ->
-    fsMockValid = new Mock([
-      name: "readFile"
-      callback_args: [
-        null
-        "dummy|dummy"
-      ]
-    ])
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
-    tokenizerObj = new Tokenizer(appMock, fsMockValid)
-    tokenizerObj.validateToken md5("dummydummy1"), (isTokenValid) ->
-      isTokenValid.should.be.true
-      return
-
-    done()
-    return
-
-  test "Invalid User", (done) ->
-    done()
-    return
-
-  return
 
 suite "Destroy Token", ->
-  test "Valid User", (done) ->
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
+  appMock = new Mock([
+    name: "get"
+    return_value: 1
+  ])
+  test "Token exists", (done) ->
+
     fsMockValid = new Mock([
-      name: "unlink"
-      return_value: null
+      {
+        name: "unlink"
+        return_value: null
+      }
+      {
+        name: "existsSync"
+        return_value: true
+      }
     ])
     tokenizerObj = new Tokenizer(appMock, fsMockValid)
     tokenizerObj.deleteToken "token", (isTokenDeleted) ->
@@ -70,112 +50,173 @@ suite "Destroy Token", ->
       done()
       return
 
-    return
-
-  test "Invalid User", (done) ->
-    done()
-    return
-
-  return
-
-suite "Test Is Authorised", ->
-  test "Valid Role", (done) ->
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
+  test "Token does not exists", (done) ->
     fsMockValid = new Mock([
-      name: "readFile"
-      callback_args: [
-        null
-        "dummy|dummy"
-      ]
+      {
+        name: "unlink"
+        return_value: null
+      }
+      {
+        name: "existsSync"
+        return_value: false
+      }
     ])
-    validUserInfoMock = new Mock([
-      name: "getRoles"
-      callback_args: [["dummyRole"]]
-    ])
-    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
-    tokenizerObj.isAuthorised "dummyRole", "asd", (success) ->
-      success.should.be.true
+    tokenizerObj = new Tokenizer(appMock, fsMockValid)
+    tokenizerObj.deleteToken "token", (isTokenDeleted) ->
+      isTokenDeleted.should.be.false
       done()
       return
-
     return
 
-  test "Invalid Role", (done) ->
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
-    fsMockValid = new Mock([
+suite "Is Authorised", ->
+  
+  appMock = new Mock([
+    name: "get"
+    return_value: 1
+  ])
+  
+  fsMockValid = new Mock([
+    {
       name: "readFile"
       callback_args: [
         null
         "dummy|dummy"
       ]
+    }
+    {
+      name: "existsSync"
+      return_value: true
+    }
+  ])
+
+  test "Token file not found", (done) ->
+    fsMockInValid = new Mock([
+      {
+        name: "readFile"
+        callback_args: [
+          null
+          "dummy|dummy"
+        ]
+      }
+      {
+        name: "existsSync"
+        return_value: false
+      }
     ])
     validUserInfoMock = new Mock([
       name: "getRoles"
       callback_args: [["dummyRole"]]
     ])
-    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
-    tokenizerObj.isAuthorised "SomeOtherdummyRole", "asd", (success) ->
+    tokenizerObj = new Tokenizer(appMock, fsMockInValid, validUserInfoMock)
+    tokenizerObj.isAuthorised "dummyRole", "asd", (success) ->
       success.should.be.false
       done()
       return
-
     return
 
+  test "No user role found", (done) ->
+    validUserInfoMock = new Mock([
+      name: "getUserRole"
+      callback_args: []
+    ])
+    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
+    tokenizerObj.isAuthorised "user", "asd", (success) ->
+      success.should.be.false
+      done()
+      return
+    return
+
+  test "admin required, user is admin", (done) ->
+    validUserInfoMock = new Mock([
+      name: "getUserRole"
+      callback_args: [["admin"]]
+    ])
+    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
+    tokenizerObj.isAuthorised "admin", "asd", (success) ->
+      success.should.be.true
+      done()
+      return
+    return
+
+  test "admin required, user is normal user ", (done) ->
+
+    validUserInfoMock = new Mock([
+      name: "getUserRole"
+      callback_args: [["user"]]
+    ])
+
+    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
+    tokenizerObj.isAuthorised "admin", "asd", (success) ->
+      success.should.be.false
+      done()
+      return
+    return
   return
 
-suite "Test Get User ID", ->
-  test "Valid Token", (done) ->
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
-    fsMockValid = new Mock([
+suite "Get User ID", ->
+  userID = "QWERT1245"
+  fsMockValid = new Mock([
+    {
       name: "readFile"
       callback_args: [
         null
-        "1|dummy"
+        userID + "|dummy"
       ]
-    ])
-    validUserInfoMock = new Mock([
-      name: "getRoles"
-      callback_args: [["dummyRole"]]
-    ])
-    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
-    tokenizerObj.getUid md5("1dummy1"), (uid) ->
-      uid.should.equal "1"
-      done()
-      return
+    }
+    {
+      name: "existsSync"
+      return_value: true
+    }
+  ])
 
-    return
-
-  test "Invalid Token", (done) ->
-    appMock = new Mock([
-      name: "get"
-      return_value: 1
-    ])
-    fsMockValid = new Mock([
+  fsMockInValid = new Mock([
+    {
       name: "readFile"
       callback_args: [
         null
-        "1rwer|dummy"
+        userID + "|dummy"
       ]
-    ])
-    validUserInfoMock = new Mock([
-      name: "getRoles"
-      callback_args: [["dummyRole"]]
-    ])
+    }
+    {
+      name: "existsSync"
+      return_value: false
+    }
+  ])
+    
+  appMock = new Mock([
+    name: "get"
+    return_value: 1
+  ])
+  
+  validUserInfoMock = new Mock([
+    name: "getRoles"
+    callback_args: [["admin"]]
+  ])
+
+  test "Valid", (done) ->
     tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
-    tokenizerObj.getUid md5("1dummy1"), (uid) ->
-      uid.should.not.equal "1"
+    tokenizerObj.getUid md5(userID + "dummy1"), (uid) ->
+      uid.should.equal userID
       done()
       return
-
     return
+
+  test "No token", (done) ->
+    tokenizerObj = new Tokenizer(appMock, fsMockInValid, validUserInfoMock)
+    tokenizerObj.getUid md5(userID + "dummy1"), (uid) ->
+      uid.should.equal false
+      done()
+      return
+    return
+
+  test "Token sent is not equal to generated one", (done) ->
+    tokenizerObj = new Tokenizer(appMock, fsMockValid, validUserInfoMock)
+    tokenizerObj.getUid md5(userID + "dummy12"), (uid) ->
+      uid.should.equal false
+      done()
+      return
+    return
+
+
 
   return
