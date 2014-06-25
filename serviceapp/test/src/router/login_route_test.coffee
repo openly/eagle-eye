@@ -1,6 +1,11 @@
-LoginRoute = require("../src/router/login")
-Mock = require("./mock")
-should = require("should")
+should = require 'should'
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+global.EEConstants = require(testDir + '../src/constants.coffee')
+LoginRoute = require(testDir + '../src/router/login')
+
 authMock = undefined
 appMock = undefined
 loginRoute = undefined
@@ -29,7 +34,7 @@ suite "Login", ->
 
     return
 
-  test "Valid User", ->
+  test "Invalid User", ->
     authMock = new Mock([
       name: "login"
       callback_args: [
@@ -48,7 +53,7 @@ suite "Login", ->
 
     loginRoute = new LoginRoute(appMock)
     loginRoute.login reqMock, (err, res) ->
-      res.status.should.equal "failed"
+      res.status.should.equal "failure"
       return
 
     return
@@ -67,39 +72,6 @@ suite "Log out", ->
     loginRoute = new LoginRoute(appMock)
     loginRoute.logout reqMock, ->
       authMock.logout_called.should.be.true
-      return
-
-    return
-
-  return
-
-suite "Get Roles", ->
-  test "Valid User", ->
-    authMock = new Mock([
-      name: "getRoles"
-      callback_args: [true]
-    ])
-    appMock = auth: authMock
-    reqMock = new Mock([])
-    reqMock.query = access_token: ""
-    loginRoute = new LoginRoute(appMock)
-    loginRoute.getRoles reqMock, (err, res) ->
-      res.status.should.equal "success"
-      return
-
-    return
-
-  test "Valid User", ->
-    authMock = new Mock([
-      name: "getRoles"
-      callback_args: [false]
-    ])
-    appMock = auth: authMock
-    reqMock = new Mock([])
-    reqMock.query = access_token: ""
-    loginRoute = new LoginRoute(appMock)
-    loginRoute.getRoles reqMock, (err, res) ->
-      res.status.should.equal "failed"
       return
 
     return

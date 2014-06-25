@@ -1,64 +1,49 @@
-Mock = require("./mock")
+should = require 'should'
+
+testDir =  __dirname + '/../'
+Mock = require (testDir + 'mock')
+
 myMock = new Mock([
   {
-    name: "asdf"
-    return_value: "abhi"
+    name: "fnName"
+    return_value: "fnRetVal"
   }
   {
-    name: "qwer"
-    callback_args: ["i am from callback"]
+    name: "cbFnName"
+    callback_args: ["I am from callback"]
   }
 ])
-console.log myMock.asdf()
-myMock.qwer (res) ->
-  console.log res
-  return
 
-console.log myMock.asdf_called
-console.log myMock.qwer_called
-Mock = require("./mock")
-should = require("should")
-setup ->
-  console.log "setup"
-  return
-
-suiteTeardown ->
-  console.log "teardown"
-  return
-
-suite "Substitution", ->
-  appMock = undefined
-  test "Test", (done) ->
-    console.log "test case"
+suite "Mock Function", ->
+  test "Not calling the mock function", (done) ->
+    myMock.fnName_called.should.be.false
     done()
     return
 
-  test "Test", (done) ->
-    console.log "test case"
-    done()
-    return
+  test "After calling the mock function", (done) ->
+    value = myMock.fnName()
 
-  test "Test", (done) ->
-    console.log "test case"
+    myMock.fnName_called.should.be.true
+    value.should.be.equal('fnRetVal')
+    
     done()
     return
 
   return
 
-suite "Substitution", ->
-  appMock = undefined
-  test "Test", (done) ->
-    console.log "test case"
+suite "Mock Callback Function", ->
+
+  test "Not calling the mock callback function", (done) ->
+    myMock.cbFnName_called.should.be.false
     done()
     return
+  
+  test "After calling the mock callback function", (done) ->
+    myMock.cbFnName (res) ->
+      res.should.be.equal("I am from callback")
+      return
 
-  test "Test", (done) ->
-    console.log "test case"
-    done()
-    return
-
-  test "Test", (done) ->
-    console.log "test case"
+    myMock.cbFnName_called.should.be.true
     done()
     return
 

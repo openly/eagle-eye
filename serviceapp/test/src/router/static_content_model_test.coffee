@@ -1,11 +1,15 @@
-SCModel = require("../src/plugins/db_static_content")
-Mock = require("./mock")
-mongoose = require("mongoose")
-should = require("should")
+should = require 'should'
+mongoose = require 'mongoose'
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+SCModel = require(testDir + "/../src/plugins/db_static_content")
+
 scModel = undefined
 
 #Clear 'orange_testing' Database before excecuting testcases.
-conn = mongoose.createConnection("mongodb://localhost:27017/orange_testing")
+conn = mongoose.createConnection("mongodb://localhost:27017/ee_testing")
 mongoose.connection.on "open", ->
   mongoose.connection.db.dropDatabase (err) ->
     throw new Error("Cannot drop DB." + err)  if err

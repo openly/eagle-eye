@@ -18,12 +18,11 @@ PluginSetup = (file, fs) ->
       throw new Error("Cannot read file.")  if err
       pluginInfo = JSON.parse(data.toString())
       _.each pluginInfo, (module, name) ->
-        console.log "Loading plugin: " + name
+        # console.log "Loading plugin: " + name
         pluginModule = undefined
         try
           pluginModule = require(app.get("PLUGIN_DIR") + module)
         catch e
-          console.log e
           throw new Error(module + " plugin doesn't exist.")
         pluginObj = new pluginModule(app)
         plugins[name] = pluginObj

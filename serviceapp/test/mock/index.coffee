@@ -15,8 +15,10 @@ module.exports = (functs, properties) ->
   while i < functs.length
     fnDesc = functs[i]
     if _.isString(fnDesc)
+      this[fnDesc + "_called"] = false
       @addFunct fnDesc
     else
+      this[fnDesc.name + "_called"] = false
       @addFunct fnDesc.name, fnDesc.return_value, fnDesc.callback_args
     i++
   return

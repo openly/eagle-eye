@@ -61,7 +61,7 @@ ServiceApp = (conf, restify) ->
     if err
       errorMessage = err.message
       errorDetails = err.stack
-      console.log err.stack
+      # console.log err.stack
     res.send
       status: global.EEConstants.status.failure
       errors: [errorMessage]
