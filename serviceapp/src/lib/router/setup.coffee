@@ -73,7 +73,6 @@ RouteSetup = (fs) ->
       app.auth.authorise routeInfo.authorisation, req, res, (success, failureData) ->
         if success # if authorization success
           sendEvent "AuthSuccess", req, routeInfo # Send auth success event
-          routeInfo.method = '_delete' if routeInfo.method == 'delete'
           routerObj[routeInfo.method] req, (err, data) -> # Execute the route and send data
             res.send data
             sendEvent "AfterRoute", req, routeInfo, data #Send the after route event

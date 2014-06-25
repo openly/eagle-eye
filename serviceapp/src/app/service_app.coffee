@@ -47,6 +47,25 @@ ServiceApp = (conf, restify) ->
     ]
     async.series calls, callback # Execute them in series.
     return
+
+  handleException = (req, res, route, err) ->
+    requestType = undefined
+    routeParams = undefined
+    url = undefined
+    errorMessage = undefined
+    errorDetails = undefined
+    if route and route.spec
+      requestType = route.spec.method
+      url = route.spec.path
+    routeParams = route.params  if route
+    if err
+      errorMessage = err.message
+      errorDetails = err.stack
+      console.log err.stack
+    res.send
+      status: global.EEConstants.status.failure
+      errors: [errorMessage]
+    return true
   
   # ***`private` createServer:*** Function to create and initialize the server.
   createServer = (callback) ->
@@ -55,24 +74,7 @@ ServiceApp = (conf, restify) ->
     restifyServer = restify.createServer() # Create the server
     restifyServer.use restify.bodyParser() # Add required middleware
     restifyServer.use restify.queryParser()
-    restifyServer.on "uncaughtException", (req, res, route, err) ->
-      requestType = undefined
-      routeParams = undefined
-      url = undefined
-      errorMessage = undefined
-      errorDetails = undefined
-      if route and route.spec
-        requestType = route.spec.method
-        url = route.spec.path
-      routeParams = route.params  if route
-      if err
-        errorMessage = err.message
-        errorDetails = err.stack
-        console.log err.stack
-      res.send
-        status: global.EEConstants.status.failure
-        errors: [err.message]
-      true
+    restifyServer.on "uncaughtException", handleException
 
     callback()
     return

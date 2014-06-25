@@ -191,7 +191,7 @@ DBCRUDRoute = (app, routeParams) ->
 
     return
 
-  @_delete = (req, callback) ->
+  @delete = (req, callback) ->
     model = app.plugins.db.getModel(routeParams.model)
     query = undefined
     reqParams = req.params

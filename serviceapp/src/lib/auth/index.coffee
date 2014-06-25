@@ -70,7 +70,6 @@ Authoriser = (userInfo, tokenizer) ->
       clearTimeout destroyTimer[token]
       destroyTimer[token] = setTimeout(->
         auth.logout token, ->
-
         return
       , timeOut)
     else
@@ -102,7 +101,7 @@ Authoriser = (userInfo, tokenizer) ->
         if userDetails
           callback userDetails
         else
-          callback null
+          callback false
         return
 
       return

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "coffee src/app.coffee",
     "test": "node_modules/cucumber/bin/cucumber.js --f pretty",
-    "unit_test": "node_modules/mocha/bin/mocha --compilers coffee:coffee-script/register -R spec test/src/**/*.coffee"
+    "unit_test": "node_modules/mocha/bin/mocha --ui tdd --compilers coffee:coffee-script/register -R spec test/src/**/*.coffee"
   },
   "repository": {
     "type": "git",
