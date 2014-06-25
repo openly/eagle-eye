@@ -1,7 +1,11 @@
-MethodExec = require("../src/plugins/method_exec")
-Mock = require("./mock")
 should = require("should")
 async = require("async")
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+MethodExec = require(testDir + '../src/plugins/method_exec')
+
 suite "Test seriesExecutor", ->
   test "Valid", (done) ->
     appMock = {}

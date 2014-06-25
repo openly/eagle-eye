@@ -1,6 +1,10 @@
-Validator = require("../src/plugins/validator")
-Mock = require("./mock")
-should = require("should")
+should = require 'should'
+
+testDir =  __dirname + '/../'
+Mock = require (testDir + 'mock')
+
+Validator = require (testDir + '../src/plugins/validator')
+
 suite "Validator Executor", (done) ->
   appMock = {}
   test "Valid Test Executor (Simple)", (done) ->

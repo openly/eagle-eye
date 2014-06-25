@@ -1,6 +1,10 @@
-ConfigLoader = require("../src/config_loader")
-Mock = require("./mock")
-should = require("should")
+should = require 'should'
+
+testDir =  __dirname + '/../'
+Mock = require (testDir + 'mock')
+
+ConfigLoader = require(testDir + '../src/config_loader')
+
 suite "Configuration Reader[JSON Based]", ->
   confReader = undefined
   appMock = undefined
@@ -34,7 +38,7 @@ suite "Configuration Reader[JSON Based]", ->
         confReader.loadBaseConfig appMock, ->
 
         return
-      ).throw()
+      ).should.throw()
       done()
       return
 
@@ -56,7 +60,7 @@ suite "Configuration Reader[JSON Based]", ->
         confReader.loadEnvSpecificConfigFile appMock, ->
 
         return
-      ).throw()
+      ).should.throw()
       done()
       return
 

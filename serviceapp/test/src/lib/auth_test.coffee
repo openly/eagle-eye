@@ -78,7 +78,7 @@ suite "Login", ->
     authObj.login "", "", (loginsuccess, token) ->
       loginsuccess.should.be.false
       validUserInfoMock.login_called.should.be.true
-      should.not.exist tokenMock.createToken_called
+      tokenMock.createToken_called.should.be.false
       done()
       return
 
@@ -162,7 +162,7 @@ suite "Login", ->
 
     nextMock.next_called.should.be.true
     tokenMock.isAuthorised_called.should.be.true
-    should.not.exist tokenMock.deleteToken_called
+    tokenMock.deleteToken_called.should.be.false
     done()
     return
 
@@ -367,7 +367,7 @@ suite "Get Roles", ->
     authObj.getUserRole "", (role) ->
       role.should.be.false
       tokenMock.getUid_called.should.be.true
-      should.not.exist validUserInfoMock.getUserRole_called
+      validUserInfoMock.getUserRole_called.should.be.false
       done()
       return
 

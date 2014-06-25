@@ -1,7 +1,11 @@
-Router = require("../src/lib/router/setup")
-Mock = require("./mock")
-nodemock = require("nodemock")
 should = require("should")
+nodemock = require("nodemock")
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+Router = require (testDir + '../src/lib/router/setup')
+
 suite "Router setup [JSON Based]", ->
   router = undefined
   appMock = undefined
@@ -9,7 +13,7 @@ suite "Router setup [JSON Based]", ->
   fsMock = undefined
   authMock = undefined
   setup ->
-    appMock = nodemock.mock("get").takes("ROUTER_DIR").returns(__dirname + "/mock/router/").times(10)
+    appMock = nodemock.mock("get").takes("ROUTER_DIR").returns(testDir + "tmp/router/").times(10)
     appMock.mock("get").takes("ROUTE_CONFIG_FILES").returns(["dummy"]).times 10
     responseMock = new Mock(["send1"])
     requestMock = new Mock([""])

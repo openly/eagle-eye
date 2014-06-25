@@ -41,14 +41,13 @@ suite "Plugins setup [JSON Based]", ->
         name: "readFile"
         callback_args: [
           null
-          "{\"invalidPlugin\":\"invalidPlugin\"}"
+          '{"invalidPlugin":"invalidPlugin"}'
         ]
       ])
       
       plugin = new pluginSetUp(null, fsMockInvalidPlugin)
       (->
         plugin.setup appMock, ->
-
         return
       ).should.throw "invalidPlugin plugin doesn't exist."
       return

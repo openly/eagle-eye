@@ -1,6 +1,10 @@
-substitute = require("../src/lib/substitute")
-Mock = require("./mock")
 should = require("should")
+
+testDir =  __dirname + '/../../'
+Mock = require (testDir + 'mock')
+
+substitute = require( testDir + '../src/lib/substitute')
+
 suite "Substitution", ->
   appMock = undefined
   setup ->

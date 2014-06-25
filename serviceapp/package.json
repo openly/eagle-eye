@@ -6,7 +6,8 @@
   "scripts": {
     "start": "coffee src/app.coffee",
     "test": "node_modules/cucumber/bin/cucumber.js --f pretty",
-    "unit_test": "node_modules/mocha/bin/mocha --ui tdd --compilers coffee:coffee-script/register -R spec test/src/**/*.coffee"
+    "unit_test": "node_modules/mocha/bin/mocha --ui tdd --compilers coffee:coffee-script/register -R spec test/src/*",
+    "code_coverage": "node_modules/mocha/bin/mocha --require test/register-handlers.coffee --ui tdd --compilers coffee:coffee-script/register --reporter html-cov test/src/* > ./temp/coverage.html"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
     "validator": "^1.5.1"
   },
   "devDependencies": {
+    "coffee-coverage": "^0.4.2",
     "coffee-script": "^1.7.1",
     "cucumber": "^0.4.0",
     "mocha": "^1.20.1",
