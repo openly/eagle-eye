@@ -5,6 +5,7 @@
   "user": "users",
   "clients": "clients",
   "projects": "projects",
+  "applications": "applications",
   "validator": "validator",
   "method_exec": "method_exec",
   "error_log": "error_log"

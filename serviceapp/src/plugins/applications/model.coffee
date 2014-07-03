@@ -5,11 +5,18 @@ ApplicationModel = (app) ->
   
   # ***`private` userSchema :*** Schema holder for user.
   applicationSchema = new db.Schema(
-    app_name: String
+    application_name:
+      type: "String"
+      required: true
     description: String
+    application_handle:
+      type: "String"
+      unique: true
+      required: true
+    project_id:
+      type: "String"
+      required: true
     plugins_added: Array
-    project_id: String
-    notify_email: Array
     created_at: Date
     updated_at: Date
   )

@@ -1,5 +1,11 @@
+ProjectModel = require("./model")
+
 Project = (app) ->
   projectModel = ProjectModel(app)
+
+  @getModel = ->
+    projectModel
+
   @checkForExistingClients = (params, callback) ->
     if params["client_id"]
       app.plugins.clients.getModel().findById(params.client_id).exec (err, clientDetails) ->
@@ -32,7 +38,5 @@ Project = (app) ->
     return
 
   return
-ProjectModel = require("./model")
-md5 = require("MD5")
-_ = require("underscore")
+
 module.exports = Project

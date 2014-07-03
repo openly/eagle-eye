@@ -5,6 +5,11 @@
       "project_handle": "project_1",
       "description": "Test Created Project"
     },
+    "invalid": {
+      "project_name": "",
+      "project_handle": "",
+      "description": ""
+    },
     "invalidClient": {
       "project_name": "Project 1",
       "project_handle": "project_1",

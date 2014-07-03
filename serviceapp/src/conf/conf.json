@@ -8,7 +8,8 @@
     "${BASE_DIR}/conf/routes/users.json",
     "${BASE_DIR}/conf/routes/user_auth.json",
     "${BASE_DIR}/conf/routes/clients.json",
-    "${BASE_DIR}/conf/routes/projects.json"
+    "${BASE_DIR}/conf/routes/projects.json",
+    "${BASE_DIR}/conf/routes/applications.json"
   ],
   "PLUGIN_DIR": "${BASE_DIR}/plugins/",
   "FAILED_EMAILS_DIR": "${BASE_DIR}/../temp/failed_emails",

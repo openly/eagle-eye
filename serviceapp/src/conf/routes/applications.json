@@ -1,0 +1,111 @@
+{
+  "/applications": {
+    "module": "db_crud",
+    "method": "read",
+    "params": {
+      "model": "applications",
+      "fields": [
+        "application_name",
+        "description",
+        "application_handle",
+        "project_id",
+        "plugins_added",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "subroutes": {
+      "/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "read",
+        "authorisation": "user",
+        "params": {
+          "model": "applications",
+          "query": {
+            "_id": "${id}"
+          },
+          "fields": [
+            "application_name",
+            "description",
+            "application_handle",
+            "project_id",
+            "plugins_added",
+            "created_at",
+            "updated_at"
+          ]
+        }
+      },
+      "/create": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "create",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "applications",
+          "before": [
+            "applications.checkForExistingProjects",
+            "applications.updateCreatedDate"
+          ],
+          "validation": {
+            "application_name": {
+              "required": {
+                "error_message": "Please enter Application Name."
+              }
+            },
+            "application_handle": {
+              "required": {
+                "error_message": "Please enter Application Handle."
+              }
+            },
+            "project_id": {
+              "required": {
+                "error_message": "Please enter ProjectId."
+              }
+            }
+          }
+        }
+      },
+      "/update/:id": {
+        "req_method": "post",
+        "module": "db_crud",
+        "method": "update",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "applications",
+          "query"       : { 
+            "_id" : "${id}" 
+          },
+          "before": [
+            "applications.updateLastUpdatedDate",
+            "applications.unsetApplicationHandleOnUpdate"
+          ],
+          "validation": {
+            "application_name": {
+              "required": {
+                "error_message": "Please enter Application Name."
+              }
+            }
+          }
+        }
+      },
+      "/delete/:id": {
+        "req_method": "get",
+        "module": "db_crud",
+        "method": "delete",
+        "authorisation": "super_admin",
+        "params": {
+          "model": "applications",
+          "query": { "_id" : "${id}" },
+          "validation": {
+            "_id": {
+              "required": {
+                "error_message": "Please provide ApplicationID."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

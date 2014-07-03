@@ -1,0 +1,29 @@
+{
+  "create": {
+    "valid": {
+      "application_name": "Application 1",
+      "application_handle": "application_1",
+      "description": "Test Created Application"
+    },
+    "invalid": {
+      "application_name": "",
+      "application_handle": "",
+      "description": ""
+    },
+    "invalidProject": {
+      "application_name": "Application 1",
+      "application_handle": "application_1",
+      "project_id": "5394487313dd80f517b68d5e"
+    }
+  },
+  "update": {
+    "valid": {
+      "application_name": "Application 2",
+      "application_handle": "application_2",
+      "description": "Test Updated Application"
+    },
+    "invalid": {
+      "project_id": "123"
+    }
+  }
+}

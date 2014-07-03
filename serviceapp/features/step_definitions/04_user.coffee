@@ -14,14 +14,6 @@ userSD = ->
       callback
     return
 
-  @Then /^I should get the error messages$/, (callback) ->
-    response = @helper.getKey('user')
-    if (response.hasOwnProperty('errors'))
-      callback()
-    else
-      callback.fail("Expected #{JSON.stringify(response)} to have property errors")
-    return
-
   @When /^I post request the url '\/users\/create\?access_token=<validToken>' with the valid data$/, (params, callback) ->
     @helper.post 'user',
       "/users/create?access_token=#{@helper.getKey('token')}",
@@ -52,27 +44,11 @@ userSD = ->
       callback
     return
 
-  @Then /^I should get the results and total number of results$/, (callback) ->
-    response = @helper.getKey('user')
-    if (response.hasOwnProperty('result') && response.hasOwnProperty('total'))
-      callback()
-    else
-      callback.fail("Expected #{JSON.stringify(response)} to have property result and total")
-    return
-
   @When /^I post request the url '\/users\/update\/<userId>\?access_token=<validToken>' with the valid data$/, (params, callback) ->
     @helper.post 'user',
       "/users/update/#{userId}?access_token=#{@helper.getKey('token')}",
       data.update.valid
       callback
-    return
-
-  @Then /^I should get result$/, (callback) ->
-    response = @helper.getKey('user')
-    if (response.hasOwnProperty('result'))
-      callback()
-    else
-      callback.fail("Expected #{JSON.stringify(response)} to have property results")
     return
 
   @When /^I request the url '\/users\/<userId>\?access_token=<validToken>'$/, (callback) ->

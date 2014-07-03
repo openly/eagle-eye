@@ -14,14 +14,6 @@ clientSD = ->
       callback
     return
 
-  @Then /^I should get the error messages$/, (callback) ->
-    response = @helper.getKey('client')
-    if (response.hasOwnProperty('errors'))
-      callback()
-    else
-      callback.fail("Expected #{JSON.stringify(response)} to have property errors")
-    return
-
   @When /^I post request the url '\/clients\/create\?access_token=<validToken>' with the valid data$/, (params, callback) ->
     @helper.post 'client',
       "/clients/create?access_token=#{@helper.getKey('token')}",
@@ -52,14 +44,6 @@ clientSD = ->
       callback
     return
 
-  @Then /^I should get the results and total number of results$/, (callback) ->
-    response = @helper.getKey('client')
-    if (response.hasOwnProperty('result') && response.hasOwnProperty('total'))
-      callback()
-    else
-      callback.fail("Expected #{JSON.stringify(response)} to have property result and total")
-    return
-
   @When /^I post request the url '\/clients\/update\/<clientId>\?access_token=<validToken>' with the valid data$/, (params, callback) ->
     @helper.post 'client',
       "/clients/update/#{clientId}?access_token=#{@helper.getKey('token')}",
@@ -67,10 +51,10 @@ clientSD = ->
       callback
     return
 
-  @Then /^I should get result$/, (callback) ->
+  @Then /^I should get the list of clients in result$/, (callback) ->
     response = @helper.getKey('client')
-    if (response.hasOwnProperty('result'))
-      callback()
+    if (typeof(response) != 'undefined' and response.hasOwnProperty('result'))
+        callback()
     else
       callback.fail("Expected #{JSON.stringify(response)} to have property results")
     return

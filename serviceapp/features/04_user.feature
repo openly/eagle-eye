@@ -1,7 +1,6 @@
 @adminLogin
 Feature: Users
-  As a logged in user of API
-  I want to CRUD the users of the API
+  As a logged in user of API I want to CRUD the users of the API
   So that I can do the users API operations
 
   Scenario: Create user with invalid data
@@ -19,7 +18,7 @@ Feature: Users
     }
     """
     Then I should get the "user" response with status "failure"
-    And I should get the error messages
+    And I should get the error messages for "user"
 
   #User ID will be like this '539068ec66e84fc743a00398'
   Scenario: Create user with valid data
@@ -54,17 +53,17 @@ Feature: Users
     }
     """
     Then I should get the "user" response with status "failure"
-    And I should get the error messages
+    And I should get the error messages for "user"
 
   Scenario: List all users
     When I request the url '/users?access_token=<validToken>'
     Then I should get the "user" response with status "success"
-    And I should get the results and total number of results
+    And I should get the "user"s and total number of "users"
 
   Scenario: Get a single user
     When I request the url '/users/<userId>?access_token=<validToken>'
     Then I should get the "user" response with status "success"
-    And I should get result
+    And I should get the "user" as result
 
   Scenario:  Update user
     When I post request the url '/users/update/<userId>?access_token=<validToken>' with the valid data

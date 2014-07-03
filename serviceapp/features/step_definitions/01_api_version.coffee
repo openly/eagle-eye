@@ -6,7 +6,7 @@ versionSD = ->
   @When /^I request the url '\/'$/, (callback) ->
     @helper.get 'api', '/', callback
 
-  @Then /^I should API get the response with version number$/, (callback) ->
+  @Then /^I should get the API response with version number$/, (callback) ->
     response = @helper.getKey('api')
     if typeof(response.version) != 'undefined'
       callback()

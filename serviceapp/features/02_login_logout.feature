@@ -1,6 +1,5 @@
 Feature: Login Logout
-  As a user of API
-  I want to login to the API
+  As a user of API I want to login to the API 
   So that I can do the API operations
 
   Scenario: Invalid Login

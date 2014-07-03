@@ -1,3 +1,5 @@
+ClientModel = require("./model")
+
 Client = (app) ->
   clientModel = ClientModel(app)
   @getModel = ->
@@ -21,7 +23,5 @@ Client = (app) ->
     return
 
   return
-ClientModel = require("./model")
-md5 = require("MD5")
-_ = require("underscore")
+
 module.exports = Client
