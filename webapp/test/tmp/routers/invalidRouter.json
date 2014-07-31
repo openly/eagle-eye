@@ -1,4 +1,0 @@
-{
-	"/": {"controller":"fileNotFound"},
-	"/asdf": {"controller":"home","action":"invalid"}
-}

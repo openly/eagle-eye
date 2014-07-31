@@ -1,1 +1,0 @@
-Service APP for the Eagle Eye APP.

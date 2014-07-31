@@ -1,0 +1,8 @@
+{
+    "title": "Markeng refactor",
+    "home_page": "login",
+    "externalJS":[
+        "//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
+    ],
+    "plugins": ["stylus" , "sass" ] 
+}

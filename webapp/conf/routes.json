@@ -1,9 +1,0 @@
-{
-	"/": {"controller":"Home","action":"index"},
-	"/login": {"controller":"Login","action":"index"},
-	"/login/do_login": {"controller":"Login","action":"doLogin","method":"post"},
-	"/logout": {"controller":"Login","action":"logout"},
-	"/dashboard": {"controller":"Home","action":"index","authorisation":"user"},
-	"/api/@path:.*" : {"controller":"API","action":"index"},
-	"/api-dbresults/@path:.*" : {"controller":"API","action":"dbResult"}
-}

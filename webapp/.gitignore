@@ -1,5 +1,0 @@
-error_log/*
-
-build
-vendor
-composer.lock
