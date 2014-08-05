@@ -17,6 +17,11 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+h3.sub-header{
+  text-align: center;
+  font-size: 1.6em;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.
