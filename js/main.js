@@ -127,5 +127,3 @@ series: [{
   changeHeading("#second-project")
   changeHeading("#third-project")
 });
-
-
